@@ -1,0 +1,5 @@
+<ul>
+  <li *ngFor="let review of reviews | async">
+    {{ review | json }}
+  </li>
+</ul>
