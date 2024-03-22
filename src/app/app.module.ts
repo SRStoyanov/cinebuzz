@@ -12,9 +12,11 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { FormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { HeroComponent } from './hero/hero.component';
 
 @NgModule({
-  declarations: [AppComponent, TestFirebaseComponent, LoginComponent],
+  declarations: [AppComponent, TestFirebaseComponent, LoginComponent, HeroComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -22,7 +24,7 @@ import { AuthService } from './auth.service';
     AngularFireAuthModule,
     FormsModule,
   ],
-  providers: [AuthService],
+  providers: [AuthService, provideAnimationsAsync()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
