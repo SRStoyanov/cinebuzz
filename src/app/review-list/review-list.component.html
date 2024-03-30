@@ -1,0 +1,5 @@
+<h2>Latest reviews</h2>
+<div *ngFor="let review of reviews | async">
+  <h3>{{ review.movieId }}</h3>
+  <p>{{ review.reviewText }}</p>
+</div>

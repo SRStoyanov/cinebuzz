@@ -1,6 +1,7 @@
 <div class="body-container">
   <h1>Hello, {{ title }}</h1>
-  <app-test-firebase></app-test-firebase>
-  <app-login></app-login>
-  <app-hero></app-hero>
+  <app-login *ngIf="showComponents"></app-login>
+  <app-hero *ngIf="showComponents"></app-hero>
+  <app-review-list *ngIf="showComponents"></app-review-list>
+  <router-outlet></router-outlet>
 </div>

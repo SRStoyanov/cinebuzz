@@ -1,0 +1,7 @@
+<!-- <h2>All reviews for {{review.movieId}} </h2> -->
+<div *ngFor="let review of reviews">
+  <h3>{{ review.movieId }}</h3>
+  <p>{{ review.reviewText }}</p>
+  <p>{{ review.rating }} out of 5</p>
+  <p>Author: {{ review.userId }}</p>
+</div>
