@@ -1,1 +1,15 @@
-<p>navbar works!</p>
+<!-- src/app/navbar/navbar.component.html -->
+<nav>
+  <a href="#">Cinebuzz</a>
+  <div>
+    <form>
+      <input type="search" placeholder="Search for movies" />
+      <button type="submit">Search</button>
+    </form>
+    <app-login></app-login>
+    <div *ngIf="user$ | async as user">
+      <button routerLink="/write-review">Write Review</button>
+      <button [routerLink]="getProfileLink(user)">Profile</button>
+    </div>
+  </div>
+</nav>

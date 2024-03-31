@@ -1,25 +1,22 @@
+// src/app/login/login.component.ts
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
-  template: `
-    <input [(ngModel)]="email" placeholder="Email" />
-    <input [(ngModel)]="password" placeholder="Password" type="password" />
-    <button (click)="login()">Sign in with Email</button>
-    <button (click)="register()">Register</button>
-    <button (click)="logout()">Sign out</button>
-    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-    <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
-  `,
+  templateUrl: './login.component.html',
 })
 export class LoginComponent {
+  user$: Observable<any>; // This will hold the user data observable
   email: string = '';
   password: string = '';
   errorMessage: string = '';
   successMessage: string = '';
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) {
+    this.user$ = this.authService.user$; // Get the user data observable from the AuthService
+  }
 
   login() {
     if (this.email && this.password) {
@@ -27,6 +24,7 @@ export class LoginComponent {
         .login(this.email, this.password)
         .then(() => {
           this.successMessage = 'Successfully signed in!';
+          setTimeout(() => (this.successMessage = ''), 3000);
           this.errorMessage = '';
         })
         .catch((error: any) => {
@@ -45,6 +43,7 @@ export class LoginComponent {
         .register(this.email, this.password)
         .then(() => {
           this.successMessage = 'Successfully registered!';
+          setTimeout(() => (this.successMessage = ''), 3000);
           this.errorMessage = '';
         })
         .catch((error: any) => {
@@ -62,6 +61,7 @@ export class LoginComponent {
       .logout()
       .then(() => {
         this.successMessage = 'Successfully signed out!';
+        setTimeout(() => (this.successMessage = ''), 3000);
         this.errorMessage = '';
       })
       .catch((error: any) => {

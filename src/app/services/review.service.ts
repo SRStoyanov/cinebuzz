@@ -21,4 +21,10 @@ export class ReviewService {
       .collection('reviews', (ref) => ref.where('movieId', '==', movieId))
       .valueChanges();
   }
+
+  getReviewsByUser(userId: string): Observable<any[]> {
+    return this.firestore
+      .collection('reviews', (ref) => ref.where('userId', '==', userId))
+      .valueChanges();
+  }
 }

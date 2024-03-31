@@ -1,5 +1,6 @@
+// src/app/app.component.ts
 import { Component } from '@angular/core';
-import { Router, NavigationEnd, NavigationStart, Event } from '@angular/router'; // Import NavigationStart and Event
+import { Router, NavigationEnd, NavigationStart, Event } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -8,8 +9,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  title = 'Your App Title'; // Declare a title property
-  showComponents = true; // Declare a showComponents property
+  title = 'Cinebuzz';
+  showComponents = true;
 
   constructor(private router: Router) {
     this.router.events
@@ -23,7 +24,8 @@ export class AppComponent {
         const navigationEndEvent = event as NavigationEnd;
         this.showComponents =
           !navigationEndEvent.urlAfterRedirects.startsWith('/reviews/') &&
-          !navigationEndEvent.urlAfterRedirects.startsWith('/movies/');
+          !navigationEndEvent.urlAfterRedirects.startsWith('/movies/') &&
+          !navigationEndEvent.urlAfterRedirects.startsWith('/users/');
       });
   }
 }
