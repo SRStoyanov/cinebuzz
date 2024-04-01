@@ -25,6 +25,7 @@ import { WriteReviewComponent } from './write-review/write-review.component';
 
 // Import HttpClientModule
 import { HttpClientModule } from '@angular/common/http';
+import { ReviewSummaryComponent } from './review-summary/review-summary.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { HttpClientModule } from '@angular/common/http';
     RegisterComponent,
     SearchResultsComponent,
     WriteReviewComponent,
+    ReviewSummaryComponent,
   ],
   imports: [
     BrowserModule,

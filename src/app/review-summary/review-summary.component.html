@@ -1,0 +1,8 @@
+<div *ngIf="review">
+  <h3>{{ review.movieTitle }} ({{ review.movieRelease }})</h3>
+  <p>{{ review.reviewText }}</p>
+  <p>{{ review.rating }} out of 5</p>
+  <p *ngIf="userEmail$ | async as userEmail">
+    Author: {{ userEmail.split("@")[0] }}
+  </p>
+</div>

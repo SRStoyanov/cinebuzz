@@ -1,6 +1,6 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -10,7 +10,10 @@ import { switchMap } from 'rxjs/operators';
 export class AuthService {
   user$: Observable<any>; // This will hold the user data
 
-  constructor(private auth: AngularFireAuth) {
+  constructor(
+    private auth: AngularFireAuth,
+    private firestore: AngularFirestore
+  ) {
     this.user$ = this.auth.authState.pipe(
       switchMap((user) => {
         if (user) {
