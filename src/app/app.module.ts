@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +21,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { WriteReviewComponent } from './write-review/write-review.component';
+
+// Import HttpClientModule
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,6 +38,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     NavbarComponent,
     RegisterComponent,
     SearchResultsComponent,
+    WriteReviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +46,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule, // Add this line
   ],
   providers: [AuthService, provideAnimationsAsync()],
   bootstrap: [AppComponent],

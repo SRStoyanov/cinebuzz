@@ -27,4 +27,15 @@ export class ReviewService {
       .collection('reviews', (ref) => ref.where('userId', '==', userId))
       .valueChanges();
   }
+
+  createReview(review: {
+    movieId: string;
+    movieRelease: string;
+    movieTitle: string;
+    rating: number;
+    reviewText: string;
+    userId: string;
+  }): Promise<any> {
+    return this.firestore.collection('reviews').add(review);
+  }
 }

@@ -1,0 +1,24 @@
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+  <label>
+    Movie Search:
+    <input type="text" formControlName="movieSearch" />
+  </label>
+  <select
+    *ngIf="searchResults.length > 0"
+    formControlName="movieId"
+    (change)="onMovieSelect($event)"
+  >
+    <option *ngFor="let result of searchResults" [value]="result.id">
+      {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+    </option>
+  </select>
+  <label>
+    Rating:
+    <input type="number" formControlName="rating" />
+  </label>
+  <label>
+    Review:
+    <textarea formControlName="reviewText"></textarea>
+  </label>
+  <button type="submit">Save review</button>
+</form>
