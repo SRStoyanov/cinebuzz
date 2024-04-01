@@ -1,6 +1,1 @@
-<!-- src/app/user-profile/user-profile.component.html -->
-<div *ngFor="let review of reviews">
-  <h3>{{ review.movieId }}</h3>
-  <p>{{ review.reviewText }}</p>
-  <p>{{ review.rating }} out of 5</p>
-</div>
+<app-review-list [query]="{ userId: userId }"></app-review-list>

@@ -18,7 +18,6 @@ export class ReviewSummaryComponent implements OnInit {
   set review(value: any) {
     this._review = value;
     if (value) {
-      console.log('userEmail:', value.userEmail);
       this.userEmail$ = of(value.userEmail);
     }
   }

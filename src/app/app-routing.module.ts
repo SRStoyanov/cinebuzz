@@ -1,15 +1,22 @@
+// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ReviewDetailComponent } from './review-detail/review-detail.component';
-import { MovieDetailComponent } from './movie-detail/movie-detail.component';
+import { HomeComponent } from './home/home.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { WriteReviewComponent } from './write-review/write-review.component';
 import { AuthGuardService } from './services/auth-guard.service';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: 'reviews/:id', component: ReviewDetailComponent },
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'users/:uid',
+    component: UserProfileComponent,
+    canActivate: [AuthGuardService],
+  },
   { path: 'movies/:movieId', component: MovieDetailComponent },
-  { path: 'users/:uid', component: UserProfileComponent },
   {
     path: 'write-review',
     component: WriteReviewComponent,

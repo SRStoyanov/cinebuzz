@@ -1,3 +1,4 @@
+// src/app/movie-detail/movie-detail.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReviewService } from '../services/review.service';
@@ -8,6 +9,7 @@ import { ReviewService } from '../services/review.service';
   styleUrls: ['./movie-detail.component.css'],
 })
 export class MovieDetailComponent implements OnInit {
+  movieId!: string;
   reviews: any[] = [];
 
   constructor(
@@ -16,11 +18,11 @@ export class MovieDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const movieId = this.route.snapshot.paramMap.get('movieId');
-    if (movieId) {
-      this.reviewService.getReviewsForMovie(movieId).subscribe((reviews) => {
+    this.movieId = this.route.snapshot.paramMap.get('movieId')!;
+    this.reviewService
+      .getReviews({ movieId: this.movieId })
+      .subscribe((reviews: any[]) => {
         this.reviews = reviews;
       });
-    }
   }
 }

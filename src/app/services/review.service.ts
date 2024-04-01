@@ -16,7 +16,10 @@ export class ReviewService {
     private authService: AuthService
   ) {}
 
-  getReviews(query?: { movieId?: string; userId?: string }): Observable<any[]> {
+  getReviews(
+    query?: { movieId?: string; userId?: string },
+    limit?: number
+  ): Observable<any[]> {
     return this.firestore
       .collection('reviews', (ref) => {
         let queryRef: firebase.firestore.Query = ref;
@@ -28,6 +31,9 @@ export class ReviewService {
             queryRef = queryRef.where('userId', '==', query.userId);
           }
         }
+        if (limit) {
+          queryRef = queryRef.limit(limit);
+        }
         return queryRef;
       })
       .valueChanges();
@@ -37,18 +43,6 @@ export class ReviewService {
     return this.firestore.collection('reviews').doc(id).valueChanges();
   }
 
-  getReviewsForMovie(movieId: string): Observable<any[]> {
-    return this.firestore
-      .collection('reviews', (ref) => ref.where('movieId', '==', movieId))
-      .valueChanges();
-  }
-
-  getReviewsByUser(userId: string): Observable<any[]> {
-    return this.firestore
-      .collection('reviews', (ref) => ref.where('userId', '==', userId))
-      .valueChanges();
-  }
-
   createReview(review: {
     movieId: string;
     movieRelease: string;
@@ -56,18 +50,16 @@ export class ReviewService {
     rating: number;
     reviewText: string;
     userId: string;
-    userEmail?: string; // Add this line
+    userEmail?: string;
   }): Promise<any> {
     return this.authService.user$
       .pipe(
         take(1),
         switchMap((user) => {
           if (user) {
-            // If the user is logged in, include their email in the review
             review.userEmail = user.email;
             return from(this.firestore.collection('reviews').add(review));
           } else {
-            // If the user is not logged in, throw an error
             throw new Error('User not logged in');
           }
         })

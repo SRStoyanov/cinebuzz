@@ -23,4 +23,8 @@ export class NavbarComponent implements OnInit {
   getProfileLink(user: any): string {
     return user && user.uid ? `/users/${user.uid}` : '/'; // Return the user profile link if uid is available, otherwise return home link
   }
+
+  logout() {
+    this.authService.logout();
+  }
 }

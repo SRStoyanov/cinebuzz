@@ -1,13 +1,12 @@
 <!-- src/app/login/login.component.html -->
-<div *ngIf="user$ | async as user; else notLoggedIn">
-  Welcome back, {{ user.email.split("@")[0] }}!
-  <button (click)="logout()">Logout</button>
-</div>
-<ng-template #notLoggedIn>
-  <input [(ngModel)]="email" placeholder="Email" />
-  <input [(ngModel)]="password" placeholder="Password" type="password" />
+<form>
+  <input type="email" [(ngModel)]="email" name="email" placeholder="Email" />
+  <input
+    type="password"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Password"
+  />
   <button (click)="login()">Login</button>
   <button (click)="register()">Register</button>
-</ng-template>
-<p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
-<p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+</form>

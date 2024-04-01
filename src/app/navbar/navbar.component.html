@@ -1,15 +1,20 @@
 <!-- src/app/navbar/navbar.component.html -->
 <nav>
-  <a href="#">Cinebuzz</a>
+  <a routerLink="/">Cinebuzz</a>
   <div>
     <form>
       <input type="search" placeholder="Search for movies" />
       <button type="submit">Search</button>
     </form>
-    <app-login></app-login>
     <div *ngIf="user$ | async as user">
+      <p>Welcome back, {{ user.email.split("@")[0] }}</p>
       <button routerLink="/write-review">Write Review</button>
       <button [routerLink]="getProfileLink(user)">Profile</button>
+      <button (click)="logout()">Logout</button>
+    </div>
+    <div *ngIf="!(user$ | async)">
+      <a routerLink="/login">Login</a>
+      <a routerLink="/login">Register</a>
     </div>
   </div>
 </nav>
