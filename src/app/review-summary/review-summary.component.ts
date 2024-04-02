@@ -22,7 +22,6 @@ export class ReviewSummaryComponent implements OnInit {
 
   @Input()
   set review(value: any) {
-    console.log('Setting review:', value);
     this._review = value;
     if (value) {
       this.userEmail$ = of(value.userEmail);
@@ -34,12 +33,10 @@ export class ReviewSummaryComponent implements OnInit {
   }
 
   onEdit() {
-    console.log('Editing review:', this._review.id);
     this.edit.emit(this._review.id);
   }
 
   onDelete() {
-    console.log('Deleting review:', this._review.id);
     this.delete.emit(this._review.id);
   }
 }

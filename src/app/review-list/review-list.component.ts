@@ -23,15 +23,8 @@ export class ReviewListComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
-    console.log(
-      'Getting reviews with query:',
-      this.query,
-      'and limit:',
-      this.limit
-    );
     this.reviews$ = this.reviewService.getReviews(this.query, this.limit);
     this.loggedInUserId = await this.authService.getUserId(); // Get the logged-in user's ID
-    console.log('Logged in user ID:', this.loggedInUserId);
   }
 
   onEdit(reviewId: string) {

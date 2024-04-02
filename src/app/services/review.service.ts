@@ -22,7 +22,6 @@ export class ReviewService {
     query?: { movieId?: string; userId?: string },
     limit?: number
   ): Observable<any[]> {
-    console.log('Getting reviews with query:', query, 'and limit:', limit);
     return this.firestore
       .collection('reviews', (ref) => {
         let queryRef: firebase.firestore.Query = ref;
@@ -64,7 +63,6 @@ export class ReviewService {
     userId: string;
     userEmail?: string;
   }): Promise<any> {
-    console.log('Creating review:', review);
     return this.authService.user$
       .pipe(
         take(1),
@@ -81,7 +79,6 @@ export class ReviewService {
   }
 
   deleteReview(reviewId: string): Promise<void> {
-    console.log('Deleting review:', reviewId);
     return this.firestore.collection('reviews').doc(reviewId).delete();
   }
 
@@ -97,7 +94,6 @@ export class ReviewService {
       userEmail?: string;
     }
   ): Promise<void> {
-    console.log('Updating review:', reviewId, 'with data:', review);
     return this.firestore.collection('reviews').doc(reviewId).update(review);
   }
 }

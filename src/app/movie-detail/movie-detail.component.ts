@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReviewService } from '../services/review.service';
 import { MovieDbService } from '../services/movie-db.service'; // Import MovieDbService
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -14,14 +15,19 @@ export class MovieDetailComponent implements OnInit {
   movie: any; // This will hold the movie details
   reviews: any[] = [];
   averageRating: number = 0; // Add a property to hold the average rating
+  isLoggedIn = false;
 
   constructor(
     private route: ActivatedRoute,
     private reviewService: ReviewService,
-    private movieDbService: MovieDbService // Inject MovieDbService
+    private movieDbService: MovieDbService, // Inject MovieDbService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
+    this.authService.user$.subscribe((user) => {
+      this.isLoggedIn = !!user;
+    });
     this.movieId = this.route.snapshot.paramMap.get('movieId')!;
     this.getMovieDetails(this.movieId);
     this.reviewService

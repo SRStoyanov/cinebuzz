@@ -10,6 +10,7 @@ import { ReviewService } from '../services/review.service';
 import { AuthService } from '../services/auth.service';
 import { MovieDbService } from '../services/movie-db.service';
 import { debounceTime, switchMap, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 interface Movie {
   id: number;
@@ -34,7 +35,8 @@ export class WriteReviewComponent implements OnInit {
     private reviewService: ReviewService,
     private authService: AuthService,
     private movieDbService: MovieDbService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.reviewForm = this.formBuilder.group({
       movieSearch: '',
@@ -53,6 +55,20 @@ export class WriteReviewComponent implements OnInit {
         this.reviewForm.get('userId')?.setValue(user.uid);
       }
     });
+
+    const movieId = this.route.snapshot.paramMap.get('movieId');
+    if (movieId) {
+      this.movieDbService.getMovieDetails(+movieId).subscribe((movie: any) => {
+        if (movie && movie.title && movie.releaseYear) {
+          this.reviewForm.patchValue({
+            movieId: movieId,
+            movieTitle: movie.title,
+            movieYear: movie.releaseYear.slice(0, 4),
+          });
+          this.moviePosterUrl = movie.posterPath;
+        }
+      });
+    }
 
     const reviewId = this.route.snapshot.paramMap.get('id');
     if (reviewId) {
@@ -136,11 +152,13 @@ export class WriteReviewComponent implements OnInit {
       if (reviewId) {
         this.reviewService.updateReview(reviewId, review).then(() => {
           this.message = 'Review updated successfully';
+          this.router.navigate(['/movies', review.movieId]);
         });
       } else {
         this.reviewService.createReview(review).then(() => {
           this.reviewForm.reset();
           this.message = 'Review created successfully';
+          this.router.navigate(['/movies', review.movieId]);
         });
       }
     } else {

@@ -69,7 +69,6 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       this.auth.onAuthStateChanged((user) => {
         if (user) {
-          console.log('User ID:', user.uid);
           resolve(user.uid);
         } else {
           resolve(null);
