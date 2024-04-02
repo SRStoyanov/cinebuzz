@@ -10,6 +10,7 @@ import { Observable, of } from 'rxjs';
 export class ReviewSummaryComponent implements OnInit {
   private _review: any;
   @Input() loggedInUserId: string | null = null;
+  @Input() showPoster = true;
   userEmail$: Observable<string | null> = of(null);
 
   @Output() edit = new EventEmitter<string>();

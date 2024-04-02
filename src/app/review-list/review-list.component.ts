@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class ReviewListComponent implements OnInit {
   @Input() query: any;
   @Input() limit: number = 0;
+  @Input() showPoster = true;
   reviews$: Observable<any[]> = of([]);
   loggedInUserId: string | null = null;
 

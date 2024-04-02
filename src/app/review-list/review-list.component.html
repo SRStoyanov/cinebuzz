@@ -3,6 +3,7 @@
   <app-review-summary
     [review]="review"
     [loggedInUserId]="loggedInUserId"
+    [showPoster]="showPoster"
     (edit)="onEdit(review.id)"
     (delete)="onDelete(review.id)"
   ></app-review-summary>

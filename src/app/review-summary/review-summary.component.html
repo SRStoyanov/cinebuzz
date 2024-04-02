@@ -6,7 +6,7 @@
     >
   </h3>
   <img
-    *ngIf="review.poster_path"
+    *ngIf="review.poster_path && showPoster"
     [src]="'https://image.tmdb.org/t/p/w500' + review.poster_path"
     alt="Movie Poster"
     style="max-width: 200px; height: auto"

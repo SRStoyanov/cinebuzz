@@ -1,1 +1,7 @@
-<app-review-list [query]="{ movieId: movieId }"></app-review-list>
+<h1>{{ movie?.title }} ({{ movie?.releaseYear }})</h1>
+<img [src]="movie?.posterPath" alt="Movie Poster" style="max-width: 400px" />
+<p>{{ movie?.synopsis }}</p>
+<app-review-list
+  [query]="{ movieId: movieId }"
+  [showPoster]="false"
+></app-review-list>

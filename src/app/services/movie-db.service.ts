@@ -27,4 +27,20 @@ export class MovieDbService {
       })
     );
   }
+
+  getMovieDetails(movieId: number): Observable<any> {
+    const url = `${this.BASE_URL}/movie/${movieId}?api_key=${this.API_KEY}`;
+    return this.http.get(url).pipe(
+      map((response: any) => {
+        return {
+          title: response.title,
+          releaseYear: response.release_date.split('-')[0], // Extract the year from the release date
+          synopsis: response.overview,
+          posterPath: response.poster_path
+            ? `https://image.tmdb.org/t/p/w500${response.poster_path}`
+            : null,
+        };
+      })
+    );
+  }
 }
