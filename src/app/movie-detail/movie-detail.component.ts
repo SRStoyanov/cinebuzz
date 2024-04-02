@@ -13,6 +13,7 @@ export class MovieDetailComponent implements OnInit {
   movieId!: string;
   movie: any; // This will hold the movie details
   reviews: any[] = [];
+  averageRating: number = 0; // Add a property to hold the average rating
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class MovieDetailComponent implements OnInit {
       .getReviews({ movieId: this.movieId })
       .subscribe((reviews: any[]) => {
         this.reviews = reviews;
+        this.calculateAverageRating(); // Calculate the average rating after fetching the reviews
       });
   }
 
@@ -34,5 +36,15 @@ export class MovieDetailComponent implements OnInit {
     this.movieDbService.getMovieDetails(+movieId).subscribe((movie: any) => {
       this.movie = movie;
     });
+  }
+
+  calculateAverageRating(): void {
+    if (this.reviews.length > 0) {
+      const totalRating = this.reviews.reduce(
+        (total, review) => total + review.rating,
+        0
+      );
+      this.averageRating = totalRating / this.reviews.length;
+    }
   }
 }

@@ -1,6 +1,7 @@
 <h1>{{ movie?.title }} ({{ movie?.releaseYear }})</h1>
 <img [src]="movie?.posterPath" alt="Movie Poster" style="max-width: 400px" />
 <p>{{ movie?.synopsis }}</p>
+<p>Average Rating: {{ averageRating | number : "1.1-2" }}</p>
 <app-review-list
   [query]="{ movieId: movieId }"
   [showPoster]="false"
