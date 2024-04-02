@@ -1,10 +1,29 @@
 <!-- review-summary.component.html -->
 <div *ngIf="review">
-  <h3>{{ review.movieTitle }} ({{ review.movieRelease }})</h3>
+  <h3>
+    <a [routerLink]="['/movies', review.movieId]"
+      >{{ review.movieTitle }} ({{ review.movieRelease }})</a
+    >
+  </h3>
+  <img
+    *ngIf="review.poster_path"
+    [src]="'https://image.tmdb.org/t/p/w500' + review.poster_path"
+    alt="Movie Poster"
+    style="max-width: 200px; height: auto"
+  />
   <p>{{ review.reviewText }}</p>
   <p>{{ review.rating }} out of 5</p>
   <p *ngIf="userEmail$ | async as userEmail">
-    Author: {{ userEmail.split("@")[0] }}
+    <a
+      *ngIf="loggedInUserId; else notLoggedIn"
+      [routerLink]="['/users', review.userId]"
+      >Author: {{ userEmail.split("@")[0] }}</a
+    >
+    <ng-template #notLoggedIn
+      ><a [routerLink]="['/login']"
+        >Author: {{ userEmail.split("@")[0] }}</a
+      ></ng-template
+    >
   </p>
   <!-- Add check for loggedInUserId being not null -->
   <button
