@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+// review-summary.component.ts
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -8,7 +9,11 @@ import { Observable, of } from 'rxjs';
 })
 export class ReviewSummaryComponent implements OnInit {
   private _review: any;
-  userEmail$: Observable<string | null> = of(null); // Change this line
+  @Input() loggedInUserId: string | null = null;
+  userEmail$: Observable<string | null> = of(null);
+
+  @Output() edit = new EventEmitter<string>();
+  @Output() delete = new EventEmitter<string>();
 
   constructor() {}
 
@@ -16,6 +21,7 @@ export class ReviewSummaryComponent implements OnInit {
 
   @Input()
   set review(value: any) {
+    console.log('Setting review:', value);
     this._review = value;
     if (value) {
       this.userEmail$ = of(value.userEmail);
@@ -24,5 +30,15 @@ export class ReviewSummaryComponent implements OnInit {
 
   get review(): any {
     return this._review;
+  }
+
+  onEdit() {
+    console.log('Editing review:', this._review.id);
+    this.edit.emit(this._review.id);
+  }
+
+  onDelete() {
+    console.log('Deleting review:', this._review.id);
+    this.delete.emit(this._review.id);
   }
 }

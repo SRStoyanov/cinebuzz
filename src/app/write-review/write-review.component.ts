@@ -1,14 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  Validators,
+  FormBuilder,
+} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { ReviewService } from '../services/review.service';
 import { AuthService } from '../services/auth.service';
 import { MovieDbService } from '../services/movie-db.service';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap, take } from 'rxjs/operators';
 
 interface Movie {
   id: number;
   title: string;
   release_date: string;
+  poster_path: string;
 }
 
 @Component({
@@ -17,24 +24,28 @@ interface Movie {
   styleUrls: ['./write-review.component.css'],
 })
 export class WriteReviewComponent implements OnInit {
-  reviewForm = new FormGroup({
-    movieSearch: new FormControl(''),
-    movieId: new FormControl('', Validators.required),
-    movieTitle: new FormControl('', Validators.required),
-    movieRelease: new FormControl('', Validators.required),
-    rating: new FormControl('', Validators.required),
-    reviewText: new FormControl('', Validators.required),
-    userId: new FormControl('', Validators.required),
-  });
-
+  reviewForm: FormGroup;
   searchResults: Movie[] = [];
   message = '';
+  moviePosterUrl: string = '';
 
   constructor(
+    private route: ActivatedRoute,
     private reviewService: ReviewService,
     private authService: AuthService,
-    private movieDbService: MovieDbService
-  ) {}
+    private movieDbService: MovieDbService,
+    private formBuilder: FormBuilder
+  ) {
+    this.reviewForm = this.formBuilder.group({
+      movieSearch: '',
+      movieId: ['', Validators.required],
+      movieTitle: ['', Validators.required],
+      movieYear: ['', Validators.required],
+      userRating: [null, [Validators.min(1), Validators.max(5)]],
+      reviewText: ['', Validators.required],
+      userId: ['', Validators.required],
+    });
+  }
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
@@ -42,6 +53,22 @@ export class WriteReviewComponent implements OnInit {
         this.reviewForm.get('userId')?.setValue(user.uid);
       }
     });
+
+    const reviewId = this.route.snapshot.paramMap.get('id');
+    if (reviewId) {
+      this.reviewService.getReview(reviewId).subscribe((review) => {
+        this.reviewForm.patchValue({
+          movieId: review.movieId,
+          movieTitle: review.movieTitle,
+          movieYear: review.movieRelease,
+          userRating: review.rating,
+          reviewText: review.reviewText,
+          userId: review.userId,
+        });
+        this.moviePosterUrl =
+          'https://image.tmdb.org/t/p/w500' + review.poster_path;
+      });
+    }
 
     const movieSearchControl = this.reviewForm.get('movieSearch');
     if (movieSearchControl) {
@@ -58,18 +85,35 @@ export class WriteReviewComponent implements OnInit {
     }
   }
 
+  onSearchChange(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    const searchValue = target.value;
+
+    if (searchValue) {
+      this.movieDbService
+        .searchMovie(searchValue)
+        .subscribe((response: any) => {
+          this.searchResults = response.results.slice(0, 10);
+        });
+    } else {
+      this.searchResults = [];
+    }
+  }
+
   onMovieSelect(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    const movieId = target.value;
     const selectedMovie = this.searchResults.find(
-      (movie) => movie.id === Number(movieId)
+      (movie) => movie.id === Number(target.value)
     );
+
     if (selectedMovie) {
-      this.reviewForm.get('movieId')?.setValue(selectedMovie.id.toString());
-      this.reviewForm.get('movieTitle')?.setValue(selectedMovie.title);
-      this.reviewForm
-        .get('movieRelease')
-        ?.setValue(selectedMovie.release_date.slice(0, 4));
+      this.reviewForm.patchValue({
+        movieId: selectedMovie.id.toString(),
+        movieTitle: selectedMovie.title,
+        movieYear: selectedMovie.release_date.slice(0, 4),
+      });
+      this.moviePosterUrl =
+        'https://image.tmdb.org/t/p/w500' + selectedMovie.poster_path;
     }
   }
 
@@ -78,21 +122,27 @@ export class WriteReviewComponent implements OnInit {
       const review = {
         movieId: this.reviewForm.value.movieId || '',
         movieTitle: this.reviewForm.value.movieTitle || '',
-        movieRelease: this.reviewForm.value.movieRelease || '',
-        rating: Number(this.reviewForm.value.rating) || 0,
+        movieRelease: this.reviewForm.value.movieYear || '',
+        rating: Number(this.reviewForm.value.userRating) || 0,
         reviewText: this.reviewForm.value.reviewText || '',
         userId: this.reviewForm.value.userId || '',
+        poster_path: this.moviePosterUrl.replace(
+          'https://image.tmdb.org/t/p/w500',
+          ''
+        ),
       };
 
-      this.reviewService
-        .createReview(review)
-        .then(() => {
+      const reviewId = this.route.snapshot.paramMap.get('id');
+      if (reviewId) {
+        this.reviewService.updateReview(reviewId, review).then(() => {
+          this.message = 'Review updated successfully';
+        });
+      } else {
+        this.reviewService.createReview(review).then(() => {
           this.reviewForm.reset();
           this.message = 'Review created successfully';
-        })
-        .catch((err) => {
-          this.message = 'An error occurred: ' + err.message;
         });
+      }
     } else {
       this.message = 'Please fill in all fields';
     }

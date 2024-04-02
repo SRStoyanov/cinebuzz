@@ -6,6 +6,8 @@ import { take, switchMap } from 'rxjs/operators';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import { AuthService } from './auth.service';
+import { map } from 'rxjs/operators';
+import { DocumentChangeAction } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +22,7 @@ export class ReviewService {
     query?: { movieId?: string; userId?: string },
     limit?: number
   ): Observable<any[]> {
+    console.log('Getting reviews with query:', query, 'and limit:', limit);
     return this.firestore
       .collection('reviews', (ref) => {
         let queryRef: firebase.firestore.Query = ref;
@@ -36,7 +39,16 @@ export class ReviewService {
         }
         return queryRef;
       })
-      .valueChanges();
+      .snapshotChanges()
+      .pipe(
+        map((actions: DocumentChangeAction<any>[]) =>
+          actions.map((a: DocumentChangeAction<any>) => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 
   getReview(id: string): Observable<any> {
@@ -52,6 +64,7 @@ export class ReviewService {
     userId: string;
     userEmail?: string;
   }): Promise<any> {
+    console.log('Creating review:', review);
     return this.authService.user$
       .pipe(
         take(1),
@@ -65,5 +78,26 @@ export class ReviewService {
         })
       )
       .toPromise();
+  }
+
+  deleteReview(reviewId: string): Promise<void> {
+    console.log('Deleting review:', reviewId);
+    return this.firestore.collection('reviews').doc(reviewId).delete();
+  }
+
+  updateReview(
+    reviewId: string,
+    review: {
+      movieId: string;
+      movieRelease: string;
+      movieTitle: string;
+      rating: number;
+      reviewText: string;
+      userId: string;
+      userEmail?: string;
+    }
+  ): Promise<void> {
+    console.log('Updating review:', reviewId, 'with data:', review);
+    return this.firestore.collection('reviews').doc(reviewId).update(review);
   }
 }

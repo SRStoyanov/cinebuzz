@@ -1,6 +1,6 @@
-// src/app/user-profile/user-profile.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -8,11 +8,18 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user-profile.component.css'],
 })
 export class UserProfileComponent implements OnInit {
-  userId!: string;
+  userId: string | null = null;
+  loggedInUserId: string | null = null;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit(): void {
-    this.userId = this.route.snapshot.paramMap.get('uid')!;
+  async ngOnInit(): Promise<void> {
+    this.userId = this.route.snapshot.paramMap.get('uid');
+    console.log('User ID:', this.userId);
+    this.loggedInUserId = await this.authService.getUserId();
+    console.log('Logged in user ID:', this.loggedInUserId);
   }
 }

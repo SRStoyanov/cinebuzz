@@ -1,24 +1,50 @@
 <form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
   <label>
     Movie Search:
-    <input type="text" formControlName="movieSearch" />
-  </label>
-  <select
-    *ngIf="searchResults.length > 0"
-    formControlName="movieId"
-    (change)="onMovieSelect($event)"
-  >
-    <option *ngFor="let result of searchResults" [value]="result.id">
-      {{ result.title }} ({{ result.release_date.slice(0, 4) }})
-    </option>
-  </select>
-  <label>
-    Rating:
-    <input type="number" formControlName="rating" />
+    <input
+      type="text"
+      formControlName="movieSearch"
+      (input)="onSearchChange($event)"
+    />
   </label>
   <label>
-    Review:
+    Our Best Guesses:
+    <select
+      *ngIf="searchResults.length > 0"
+      formControlName="movieId"
+      (change)="onMovieSelect($event)"
+    >
+      <option value="">Select a movie</option>
+      <option *ngFor="let result of searchResults" [value]="result.id">
+        {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+      </option>
+    </select>
+  </label>
+  <label>
+    Movie Title:
+    <input type="text" formControlName="movieTitle" readonly />
+  </label>
+  <label>
+    Year of Release:
+    <input type="text" formControlName="movieYear" readonly />
+  </label>
+  <label>
+    Movie Poster:
+    <img [src]="moviePosterUrl" alt="Movie Poster" />
+  </label>
+  <label>
+    Your Rating:
+    <input
+      type="number"
+      formControlName="userRating"
+      step="0.1"
+      min="1"
+      max="5"
+    />
+  </label>
+  <label>
+    Your Review:
     <textarea formControlName="reviewText"></textarea>
   </label>
-  <button type="submit">Save review</button>
+  <button type="submit">Save Review</button>
 </form>

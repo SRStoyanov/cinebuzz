@@ -1,3 +1,4 @@
+<!-- review-summary.component.html -->
 <div *ngIf="review">
   <h3>{{ review.movieTitle }} ({{ review.movieRelease }})</h3>
   <p>{{ review.reviewText }}</p>
@@ -5,4 +6,17 @@
   <p *ngIf="userEmail$ | async as userEmail">
     Author: {{ userEmail.split("@")[0] }}
   </p>
+  <!-- Add check for loggedInUserId being not null -->
+  <button
+    *ngIf="loggedInUserId && review.userId === loggedInUserId"
+    (click)="onEdit()"
+  >
+    Edit
+  </button>
+  <button
+    *ngIf="loggedInUserId && review.userId === loggedInUserId"
+    (click)="onDelete()"
+  >
+    Delete
+  </button>
 </div>

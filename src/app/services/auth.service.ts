@@ -51,4 +51,17 @@ export class AuthService {
   logout(): Promise<void> {
     return this.auth.signOut();
   }
+
+  getUserId(): Promise<string | null> {
+    return new Promise((resolve, reject) => {
+      this.auth.onAuthStateChanged((user) => {
+        if (user) {
+          console.log('User ID:', user.uid);
+          resolve(user.uid);
+        } else {
+          resolve(null);
+        }
+      }, reject);
+    });
+  }
 }

@@ -1,7 +1,8 @@
-// src/app/review-list/review-list.component.ts
-import { Component, Input, OnInit } from '@angular/core';
-import { ReviewService } from '../services/review.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
+import { ReviewService } from '../services/review.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-review-list',
@@ -10,12 +11,36 @@ import { Observable, of } from 'rxjs';
 })
 export class ReviewListComponent implements OnInit {
   @Input() query: any;
-  @Input() limit: number | undefined = undefined;
+  @Input() limit: number = 0;
   reviews$: Observable<any[]> = of([]);
+  loggedInUserId: string | null = null;
 
-  constructor(private reviewService: ReviewService) {}
+  constructor(
+    private reviewService: ReviewService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    console.log(
+      'Getting reviews with query:',
+      this.query,
+      'and limit:',
+      this.limit
+    );
     this.reviews$ = this.reviewService.getReviews(this.query, this.limit);
+    this.loggedInUserId = await this.authService.getUserId(); // Get the logged-in user's ID
+    console.log('Logged in user ID:', this.loggedInUserId);
+  }
+
+  onEdit(reviewId: string) {
+    this.router.navigate(['/write-review', { id: reviewId }]);
+  }
+
+  onDelete(reviewId: string) {
+    this.reviewService.deleteReview(reviewId).then(() => {
+      // Refresh the reviews after deletion
+      this.reviews$ = this.reviewService.getReviews(this.query, this.limit);
+    });
   }
 }

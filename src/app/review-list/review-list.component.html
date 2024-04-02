@@ -1,4 +1,9 @@
 <h2>Latest reviews</h2>
 <div *ngFor="let review of reviews$ | async">
-  <app-review-summary [review]="review"></app-review-summary>
+  <app-review-summary
+    [review]="review"
+    [loggedInUserId]="loggedInUserId"
+    (edit)="onEdit(review.id)"
+    (delete)="onDelete(review.id)"
+  ></app-review-summary>
 </div>
