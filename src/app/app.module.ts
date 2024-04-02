@@ -15,7 +15,6 @@ import { AuthService } from './services/auth.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HeroComponent } from './hero/hero.component';
 import { ReviewListComponent } from './review-list/review-list.component';
-import { ReviewDetailComponent } from './review-detail/review-detail.component';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -35,7 +34,6 @@ import { HomeComponent } from './home/home.component';
     LoginComponent,
     HeroComponent,
     ReviewListComponent,
-    ReviewDetailComponent,
     MovieDetailComponent,
     UserProfileComponent,
     NavbarComponent,
