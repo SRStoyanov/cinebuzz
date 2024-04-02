@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router'; // Import Router
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class AuthService {
 
   constructor(
     private auth: AngularFireAuth,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private router: Router // Inject Router
   ) {
     this.user$ = this.auth.authState.pipe(
       switchMap((user) => {
@@ -40,16 +42,27 @@ export class AuthService {
     );
   }
 
-  login(email: string, password: string): Promise<any> {
-    return this.auth.signInWithEmailAndPassword(email, password);
+  async login(email: string, password: string) {
+    const credential = await this.auth.signInWithEmailAndPassword(
+      email,
+      password
+    );
+    this.router.navigate(['/']); // Navigate to the homepage
+    return credential;
   }
 
-  register(email: string, password: string): Promise<any> {
-    return this.auth.createUserWithEmailAndPassword(email, password);
+  async logout() {
+    await this.auth.signOut();
+    this.router.navigate(['/']); // Navigate to the homepage
   }
 
-  logout(): Promise<void> {
-    return this.auth.signOut();
+  async register(email: string, password: string) {
+    const credential = await this.auth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+    this.router.navigate(['/']); // Navigate to the homepage
+    return credential;
   }
 
   getUserId(): Promise<string | null> {
