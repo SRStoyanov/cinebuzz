@@ -1,6 +1,6 @@
 // src/app/movie-detail/movie-detail.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../services/review.service';
 import { MovieDbService } from '../services/movie-db.service'; // Import MovieDbService
 import { AuthService } from '../services/auth.service';
@@ -21,7 +21,8 @@ export class MovieDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private reviewService: ReviewService,
     private movieDbService: MovieDbService, // Inject MovieDbService
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -39,9 +40,15 @@ export class MovieDetailComponent implements OnInit {
   }
 
   getMovieDetails(movieId: string): void {
-    this.movieDbService.getMovieDetails(+movieId).subscribe((movie: any) => {
-      this.movie = movie;
-    });
+    this.movieDbService.getMovieDetails(+movieId).subscribe(
+      (movie: any) => {
+        this.movie = movie;
+      },
+      (error) => {
+        console.error('Error fetching movie details', error);
+        this.router.navigate(['/']); // Redirect to home route
+      }
+    );
   }
 
   calculateAverageRating(): void {
