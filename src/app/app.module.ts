@@ -19,7 +19,6 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RegisterComponent } from './register/register.component';
-import { SearchResultsComponent } from './search-results/search-results.component';
 import { WriteReviewComponent } from './write-review/write-review.component';
 
 // Import HttpClientModule
@@ -39,7 +38,6 @@ import { EditReviewComponent } from './edit-review/edit-review.component';
     UserProfileComponent,
     NavbarComponent,
     RegisterComponent,
-    SearchResultsComponent,
     WriteReviewComponent,
     ReviewSummaryComponent,
     LatestReviewsComponent,
