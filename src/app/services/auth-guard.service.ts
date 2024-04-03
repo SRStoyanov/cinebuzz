@@ -7,16 +7,16 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
+  // Inject AuthService and Router in the constructor
   constructor(private authService: AuthService, private router: Router) {}
 
-  // src/app/auth-guard.service.ts
-  // src/app/auth-guard.service.ts
+  // Method to determine if a route can be activated
   canActivate() {
     return this.authService.user$.pipe(
       map((user) => {
-        if (user) return true;
+        if (user) return true; // Allow navigation if user is authenticated
 
-        this.router.navigate(['/login']);
+        this.router.navigate(['/login']); // Redirect to login if user is not authenticated
         return false;
       })
     );

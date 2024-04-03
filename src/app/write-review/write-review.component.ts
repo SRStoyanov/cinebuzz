@@ -12,6 +12,7 @@ import { MovieDbService } from '../services/movie-db.service';
 import { debounceTime, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
+// Movie interface for type safety
 interface Movie {
   id: number;
   title: string;
@@ -32,6 +33,7 @@ export class WriteReviewComponent implements OnInit {
   errorMessage: string = '';
   successMessage: string = '';
 
+  // Inject services and FormBuilder in the constructor
   constructor(
     private route: ActivatedRoute,
     private reviewService: ReviewService,
@@ -52,6 +54,7 @@ export class WriteReviewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Set user id and fetch movie details on component initialization
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.reviewForm.get('userId')?.setValue(user.uid);
@@ -72,6 +75,7 @@ export class WriteReviewComponent implements OnInit {
       });
     }
 
+    // Listen for changes in the movie search field and perform movie search
     const movieSearchControl = this.reviewForm.get('movieSearch');
     if (movieSearchControl) {
       movieSearchControl.valueChanges
@@ -87,6 +91,7 @@ export class WriteReviewComponent implements OnInit {
     }
   }
 
+  // Handle search input change
   onSearchChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const searchValue = target.value;
@@ -102,6 +107,7 @@ export class WriteReviewComponent implements OnInit {
     }
   }
 
+  // Handle movie selection from the search results
   onMovieSelect(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedMovie = this.searchResults.find(
@@ -119,6 +125,7 @@ export class WriteReviewComponent implements OnInit {
     }
   }
 
+  // Handle form submission
   onSubmit(): void {
     this.errorMessage = '';
     this.successMessage = '';
@@ -126,13 +133,11 @@ export class WriteReviewComponent implements OnInit {
     const rating = Number(this.reviewForm.value.userRating) || 0;
     const reviewText = this.reviewForm.value.reviewText || '';
 
-    // Check if rating is between 1 and 5
     if (rating < 1 || rating > 5) {
       this.errorMessage = 'Rating must be between 1 and 5.';
       return;
     }
 
-    // Check if review text is not too short or too long
     if (reviewText.length < 10 || reviewText.length > 500) {
       this.errorMessage =
         'Review text must be between 10 and 500 characters long.';
@@ -161,7 +166,6 @@ export class WriteReviewComponent implements OnInit {
           this.router.navigate(['/movies', review.movieId]);
         })
         .catch((error) => {
-          // Handle review creation errors
           this.errorMessage = 'Failed to create review. Please try again.';
         });
     } else {

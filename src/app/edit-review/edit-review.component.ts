@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../services/review.service';
 import { FormGroup, FormControl } from '@angular/forms';
 
@@ -13,11 +13,13 @@ export class EditReviewComponent implements OnInit {
   message = '';
   reviewId: string | null = null;
 
+  // Inject ActivatedRoute, ReviewService, and Router in the constructor
   constructor(
     private route: ActivatedRoute,
     private reviewService: ReviewService,
-    private router: Router // Inject Router
+    private router: Router
   ) {
+    // Initialize form group for the review form
     this.reviewForm = new FormGroup({
       movieId: new FormControl(''),
       movieTitle: new FormControl(''),
@@ -31,8 +33,10 @@ export class EditReviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Get reviewId from the route parameters
     this.reviewId = this.route.snapshot.paramMap.get('reviewId');
     if (this.reviewId) {
+      // If reviewId is present, get the review details and patch the form values
       this.reviewService.getReview(this.reviewId).subscribe((review) => {
         this.reviewForm.patchValue({
           movieId: review.movieId,
@@ -42,19 +46,20 @@ export class EditReviewComponent implements OnInit {
           reviewText: review.reviewText,
           userId: review.userId,
           userEmail: review.userEmail,
-          posterPath: review.poster_path, // Change this line
+          posterPath: review.poster_path,
         });
       });
     }
   }
 
   onSubmit() {
+    // If the form is valid and reviewId is present, update the review
     if (this.reviewForm.valid && this.reviewId) {
       this.reviewService
         .updateReview(this.reviewId, this.reviewForm.value)
         .then(() => {
           this.message = 'Review updated successfully!';
-          // Navigate to /movies/movieId after updating the review
+          // Navigate to the movie details page after updating the review
           this.router.navigate([
             '/movies',
             this.reviewForm?.get('movieId')?.value,

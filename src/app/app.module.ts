@@ -20,7 +20,6 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { WriteReviewComponent } from './write-review/write-review.component';
 
-// Import HttpClientModule
 import { HttpClientModule } from '@angular/common/http';
 import { ReviewSummaryComponent } from './review-summary/review-summary.component';
 import { LatestReviewsComponent } from './latest-reviews/latest-reviews.component';
@@ -29,6 +28,7 @@ import { EditReviewComponent } from './edit-review/edit-review.component';
 
 import { LucideAngularModule, Popcorn } from 'lucide-angular';
 
+// Define the AppModule
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,14 +47,14 @@ import { LucideAngularModule, Popcorn } from 'lucide-angular';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase), // Initialize Firebase
+    AngularFireAuthModule, // Import Firebase authentication module
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    LucideAngularModule.pick({ Popcorn }),
+    HttpClientModule, // Import HttpClientModule for making HTTP requests
+    LucideAngularModule.pick({ Popcorn }), // Import Lucide icons
   ],
-  providers: [AuthService, provideAnimationsAsync()],
-  bootstrap: [AppComponent],
+  providers: [AuthService, provideAnimationsAsync()], // Provide AuthService and animations
+  bootstrap: [AppComponent], // Bootstrap AppComponent
 })
 export class AppModule {}

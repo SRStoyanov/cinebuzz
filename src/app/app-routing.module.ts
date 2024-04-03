@@ -1,4 +1,3 @@
-// src/app/app-routing.module.ts
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
@@ -10,31 +9,32 @@ import { LoginComponent } from './login/login.component';
 import { EditReviewComponent } from './edit-review/edit-review.component';
 import { LoginGuardService } from './services/login-guard.service';
 
+// Define the routes for the application
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [LoginGuardService],
+    canActivate: [LoginGuardService], // Guard to prevent logged in users from accessing the login page
   },
   {
     path: 'users/:uid',
     component: UserProfileComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService], // Guard to prevent unauthenticated users from accessing user profiles
   },
   { path: 'movies/:movieId', component: MovieDetailComponent },
   {
     path: 'write-review',
     component: WriteReviewComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService], // Guard to prevent unauthenticated users from writing a review
   },
   {
     path: 'write-review/:movieId',
     component: WriteReviewComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService], // Guard to prevent unauthenticated users from writing a review
   },
   { path: 'edit-review/:reviewId', component: EditReviewComponent },
-  { path: '**', component: HomeComponent },
+  { path: '**', component: HomeComponent }, // Fallback route to home component
 ];
 
 @NgModule({

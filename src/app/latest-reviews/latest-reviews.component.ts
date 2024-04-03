@@ -1,4 +1,3 @@
-// src/app/latest-reviews/latest-reviews.component.ts
 import { Component, OnInit } from '@angular/core';
 
 @Component({

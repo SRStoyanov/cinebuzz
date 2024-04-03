@@ -1,7 +1,6 @@
-// review-summary.component.ts
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AuthService } from '../services/auth.service'; // Import AuthService
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-review-summary',
@@ -17,16 +16,19 @@ export class ReviewSummaryComponent implements OnInit {
   @Output() edit = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
 
+  // Inject AuthService in the constructor
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
+    // Clear the user id when the user logs out
     this.authService.isLoggedIn.subscribe((isLoggedIn) => {
       if (!isLoggedIn) {
-        this.loggedInUserId = null; // clear the user id when the user logs out
+        this.loggedInUserId = null;
       }
     });
   }
 
+  // Setter for review input
   @Input()
   set review(value: any) {
     this._review = value;
@@ -35,14 +37,17 @@ export class ReviewSummaryComponent implements OnInit {
     }
   }
 
+  // Getter for review input
   get review(): any {
     return this._review;
   }
 
+  // Emit edit event with review id
   onEdit() {
     this.edit.emit(this._review.id);
   }
 
+  // Emit delete event with review id
   onDelete() {
     this.delete.emit(this._review.id);
   }

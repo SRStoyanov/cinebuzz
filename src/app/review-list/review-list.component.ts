@@ -16,6 +16,7 @@ export class ReviewListComponent implements OnInit {
   reviews$: Observable<any[]> = of([]);
   loggedInUserId: string | null = null;
 
+  // Inject services in the constructor
   constructor(
     private reviewService: ReviewService,
     private authService: AuthService,
@@ -23,17 +24,19 @@ export class ReviewListComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+    // Fetch reviews and logged-in user's ID on component initialization
     this.reviews$ = this.reviewService.getReviews(this.query, this.limit);
-    this.loggedInUserId = await this.authService.getUserId(); // Get the logged-in user's ID
+    this.loggedInUserId = await this.authService.getUserId();
   }
 
+  // Navigate to the review edit page
   onEdit(reviewId: string) {
     this.router.navigate(['/write-review', { id: reviewId }]);
   }
 
+  // Delete a review and refresh the list
   onDelete(reviewId: string) {
     this.reviewService.deleteReview(reviewId).then(() => {
-      // Refresh the reviews after deletion
       this.reviews$ = this.reviewService.getReviews(this.query, this.limit);
     });
   }

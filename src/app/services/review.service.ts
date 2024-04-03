@@ -13,11 +13,13 @@ import { DocumentChangeAction } from '@angular/fire/compat/firestore';
   providedIn: 'root',
 })
 export class ReviewService {
+  // Inject Firestore and AuthService in the constructor
   constructor(
     private firestore: AngularFirestore,
     private authService: AuthService
   ) {}
 
+  // Method to get reviews with optional query and limit
   getReviews(
     query?: { movieId?: string; userId?: string },
     limit?: number
@@ -50,10 +52,12 @@ export class ReviewService {
       );
   }
 
+  // Method to get a review by its ID
   getReview(id: string): Observable<any> {
     return this.firestore.collection('reviews').doc(id).valueChanges();
   }
 
+  // Method to create a review
   createReview(review: {
     movieId: string;
     movieRelease: string;
@@ -78,10 +82,12 @@ export class ReviewService {
       .toPromise();
   }
 
+  // Method to delete a review by its ID
   deleteReview(reviewId: string): Promise<void> {
     return this.firestore.collection('reviews').doc(reviewId).delete();
   }
 
+  // Method to update a review by its ID
   updateReview(
     reviewId: string,
     review: {

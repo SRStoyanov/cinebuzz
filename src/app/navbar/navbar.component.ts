@@ -7,6 +7,7 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { LucideAngularModule, Popcorn } from 'lucide-angular';
 
+// Movie interface for type safety
 interface Movie {
   id: number;
   title: string;
@@ -23,8 +24,9 @@ export class NavbarComponent implements OnInit {
   user$: Observable<any>;
   searchForm: FormGroup;
   searchResults: Movie[] = [];
-  menuOpen = false; // Add this line
+  menuOpen = false;
 
+  // Inject services and FormBuilder in the constructor
   constructor(
     private authService: AuthService,
     private movieDbService: MovieDbService,
@@ -38,6 +40,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Listen for changes in the search form and perform movie search
     this.searchForm
       .get('movieSearch')
       ?.valueChanges.pipe(
@@ -51,6 +54,7 @@ export class NavbarComponent implements OnInit {
       });
   }
 
+  // Handle search input change
   onSearchChange(event: Event): void {
     const target = event.target as HTMLInputElement;
     const searchValue = target.value;
@@ -66,6 +70,7 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  // Handle movie selection from the search results
   onMovieSelect(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedMovieId = target.value;
@@ -77,10 +82,12 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  // Generate profile link for the user
   getProfileLink(user: any): string {
-    return user && user.uid ? `/users/${user.uid}` : '/'; // Return the user profile link if uid is available, otherwise return home link
+    return user && user.uid ? `/users/${user.uid}` : '/';
   }
 
+  // Handle user logout
   logout() {
     this.authService.logout();
   }
