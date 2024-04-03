@@ -70,22 +70,6 @@ export class WriteReviewComponent implements OnInit {
       });
     }
 
-    const reviewId = this.route.snapshot.paramMap.get('id');
-    if (reviewId) {
-      this.reviewService.getReview(reviewId).subscribe((review) => {
-        this.reviewForm.patchValue({
-          movieId: review.movieId,
-          movieTitle: review.movieTitle,
-          movieYear: review.movieRelease,
-          userRating: review.rating,
-          reviewText: review.reviewText,
-          userId: review.userId,
-        });
-        this.moviePosterUrl =
-          'https://image.tmdb.org/t/p/w500' + review.poster_path;
-      });
-    }
-
     const movieSearchControl = this.reviewForm.get('movieSearch');
     if (movieSearchControl) {
       movieSearchControl.valueChanges

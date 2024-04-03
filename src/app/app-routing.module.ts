@@ -19,6 +19,11 @@ const routes: Routes = [
   },
   { path: 'movies/:movieId', component: MovieDetailComponent },
   {
+    path: 'write-review',
+    component: WriteReviewComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
     path: 'write-review/:movieId',
     component: WriteReviewComponent,
     canActivate: [AuthGuardService],
