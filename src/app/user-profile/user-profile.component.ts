@@ -18,8 +18,6 @@ export class UserProfileComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.userId = this.route.snapshot.paramMap.get('uid');
-    console.log('User ID:', this.userId);
     this.loggedInUserId = await this.authService.getUserId();
-    console.log('Logged in user ID:', this.loggedInUserId);
   }
 }

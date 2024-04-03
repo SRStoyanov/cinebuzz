@@ -132,19 +132,11 @@ export class WriteReviewComponent implements OnInit {
         ),
       };
 
-      const reviewId = this.route.snapshot.paramMap.get('id');
-      if (reviewId) {
-        this.reviewService.updateReview(reviewId, review).then(() => {
-          this.message = 'Review updated successfully';
-          this.router.navigate(['/movies', review.movieId]);
-        });
-      } else {
-        this.reviewService.createReview(review).then(() => {
-          this.reviewForm.reset();
-          this.message = 'Review created successfully';
-          this.router.navigate(['/movies', review.movieId]);
-        });
-      }
+      this.reviewService.createReview(review).then(() => {
+        this.reviewForm.reset();
+        this.message = 'Review created successfully';
+        this.router.navigate(['/movies', review.movieId]);
+      });
     } else {
       this.message = 'Please fill in all fields';
     }
