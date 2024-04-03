@@ -1,0 +1,27 @@
+<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
+  <label>
+    Movie Title:
+    <input type="text" formControlName="movieTitle" readonly />
+  </label>
+  <label>
+    Year of Release:
+    <input type="text" formControlName="movieRelease" readonly />
+  </label>
+  <label>
+    Movie Poster:
+    <img
+      [src]="
+        'https://image.tmdb.org/t/p/w500' + reviewForm.get('posterPath')?.value
+      "
+    />
+  </label>
+  <label>
+    Your Rating:
+    <input type="number" formControlName="rating" step="0.1" min="1" max="5" />
+  </label>
+  <label>
+    Your Review:
+    <textarea formControlName="reviewText"></textarea>
+  </label>
+  <button type="submit">Save Review</button>
+</form>

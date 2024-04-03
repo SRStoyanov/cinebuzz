@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReviewSummaryComponent } from './review-summary/review-summary.component';
 import { LatestReviewsComponent } from './latest-reviews/latest-reviews.component';
 import { HomeComponent } from './home/home.component';
+import { EditReviewComponent } from './edit-review/edit-review.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { HomeComponent } from './home/home.component';
     ReviewSummaryComponent,
     LatestReviewsComponent,
     HomeComponent,
+    EditReviewComponent,
   ],
   imports: [
     BrowserModule,

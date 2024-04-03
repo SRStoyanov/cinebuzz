@@ -26,12 +26,12 @@
     >
   </p>
   <!-- Add check for loggedInUserId being not null -->
-  <button
+  <a
     *ngIf="loggedInUserId && review.userId === loggedInUserId"
-    (click)="onEdit()"
+    [routerLink]="['/edit-review', review.id]"
   >
     Edit
-  </button>
+  </a>
   <button
     *ngIf="loggedInUserId && review.userId === loggedInUserId"
     (click)="onDelete()"

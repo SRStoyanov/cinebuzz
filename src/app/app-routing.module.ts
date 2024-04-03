@@ -7,6 +7,7 @@ import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { WriteReviewComponent } from './write-review/write-review.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { LoginComponent } from './login/login.component';
+import { EditReviewComponent } from './edit-review/edit-review.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,6 +23,7 @@ const routes: Routes = [
     component: WriteReviewComponent,
     canActivate: [AuthGuardService],
   },
+  { path: 'edit-review/:reviewId', component: EditReviewComponent },
 ];
 
 @NgModule({
