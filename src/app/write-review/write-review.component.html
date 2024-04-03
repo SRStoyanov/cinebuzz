@@ -45,4 +45,5 @@
     <textarea formControlName="reviewText"></textarea>
   </label>
   <button type="submit">Save Review</button>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </form>

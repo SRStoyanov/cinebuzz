@@ -29,6 +29,8 @@ export class WriteReviewComponent implements OnInit {
   searchResults: Movie[] = [];
   message = '';
   moviePosterUrl: string = '';
+  errorMessage: string = '';
+  successMessage: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -118,13 +120,32 @@ export class WriteReviewComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    const rating = Number(this.reviewForm.value.userRating) || 0;
+    const reviewText = this.reviewForm.value.reviewText || '';
+
+    // Check if rating is between 1 and 5
+    if (rating < 1 || rating > 5) {
+      this.errorMessage = 'Rating must be between 1 and 5.';
+      return;
+    }
+
+    // Check if review text is not too short or too long
+    if (reviewText.length < 10 || reviewText.length > 500) {
+      this.errorMessage =
+        'Review text must be between 10 and 500 characters long.';
+      return;
+    }
+
     if (this.reviewForm.valid) {
       const review = {
         movieId: this.reviewForm.value.movieId || '',
         movieTitle: this.reviewForm.value.movieTitle || '',
         movieRelease: this.reviewForm.value.movieYear || '',
-        rating: Number(this.reviewForm.value.userRating) || 0,
-        reviewText: this.reviewForm.value.reviewText || '',
+        rating: rating,
+        reviewText: reviewText,
         userId: this.reviewForm.value.userId || '',
         poster_path: this.moviePosterUrl.replace(
           'https://image.tmdb.org/t/p/w500',
@@ -132,13 +153,19 @@ export class WriteReviewComponent implements OnInit {
         ),
       };
 
-      this.reviewService.createReview(review).then(() => {
-        this.reviewForm.reset();
-        this.message = 'Review created successfully';
-        this.router.navigate(['/movies', review.movieId]);
-      });
+      this.reviewService
+        .createReview(review)
+        .then(() => {
+          this.reviewForm.reset();
+          this.successMessage = 'Review created successfully';
+          this.router.navigate(['/movies', review.movieId]);
+        })
+        .catch((error) => {
+          // Handle review creation errors
+          this.errorMessage = 'Failed to create review. Please try again.';
+        });
     } else {
-      this.message = 'Please fill in all fields';
+      this.errorMessage = 'Please fill out the form correctly.';
     }
   }
 }

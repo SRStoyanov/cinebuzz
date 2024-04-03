@@ -9,4 +9,5 @@
   />
   <button (click)="login()">Login</button>
   <button (click)="register()">Register</button>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 </form>
