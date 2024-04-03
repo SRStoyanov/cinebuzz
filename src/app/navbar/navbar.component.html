@@ -20,7 +20,7 @@
     </form>
     <div *ngIf="user$ | async as user">
       <p>Welcome back, {{ user.email.split("@")[0] }}</p>
-      <button routerLink="/write-review">Write Review</button>
+      <button routerLink="/write-review">New Review</button>
       <button [routerLink]="getProfileLink(user)">Profile</button>
       <button (click)="logout()">Logout</button>
     </div>

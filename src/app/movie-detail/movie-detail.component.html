@@ -3,7 +3,7 @@
 <p>{{ movie?.synopsis }}</p>
 <p>Average Rating: {{ averageRating | number : "1.1-2" }}</p>
 <button *ngIf="isLoggedIn" [routerLink]="['/write-review', movieId]">
-  Write Review
+  Review This Movie
 </button>
 <app-review-list
   [query]="{ movieId: movieId }"
