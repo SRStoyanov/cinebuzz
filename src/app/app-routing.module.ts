@@ -8,10 +8,15 @@ import { WriteReviewComponent } from './write-review/write-review.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { EditReviewComponent } from './edit-review/edit-review.component';
+import { LoginGuardService } from './services/login-guard.service';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginGuardService],
+  },
   {
     path: 'users/:uid',
     component: UserProfileComponent,
@@ -29,6 +34,7 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   { path: 'edit-review/:reviewId', component: EditReviewComponent },
+  { path: '**', component: HomeComponent },
 ];
 
 @NgModule({
