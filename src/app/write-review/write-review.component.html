@@ -1,49 +1,83 @@
-<form [formGroup]="reviewForm" (ngSubmit)="onSubmit()">
-  <label>
-    Movie Search:
-    <input
-      type="text"
-      formControlName="movieSearch"
-      (input)="onSearchChange($event)"
-    />
-  </label>
-  <label>
-    Our Best Guesses:
-    <select formControlName="movieId" (change)="onMovieSelect($event)">
-      <option value="">Select a movie</option>
-      <ng-container *ngIf="searchResults.length > 0">
-        <option *ngFor="let result of searchResults" [value]="result.id">
-          {{ result.title }} ({{ result.release_date.slice(0, 4) }})
-        </option>
-      </ng-container>
-    </select>
-  </label>
-  <label>
-    Movie Title:
-    <input type="text" formControlName="movieTitle" readonly />
-  </label>
-  <label>
-    Year of Release:
-    <input type="text" formControlName="movieYear" readonly />
-  </label>
-  <label>
-    Movie Poster:
-    <img [src]="moviePosterUrl" alt="Movie Poster" />
-  </label>
-  <label>
-    Your Rating:
-    <input
-      type="number"
-      formControlName="userRating"
-      step="0.1"
-      min="1"
-      max="5"
-    />
-  </label>
-  <label>
-    Your Review:
-    <textarea formControlName="reviewText"></textarea>
-  </label>
-  <button type="submit">Save Review</button>
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-</form>
+<div
+  class="bg-gray-900 text-gray-200 font-sans min-h-screen flex items-center justify-center"
+>
+  <form
+    [formGroup]="reviewForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-gray-800 p-6 rounded-lg"
+  >
+    <label class="block mb-4">
+      Movie Search:
+      <input
+        type="text"
+        formControlName="movieSearch"
+        (input)="onSearchChange($event)"
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full"
+      />
+    </label>
+    <label class="block mb-4">
+      Our Best Guesses:
+      <select
+        formControlName="movieId"
+        (change)="onMovieSelect($event)"
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-48"
+      >
+        <option value="">Select a movie</option>
+        <ng-container *ngIf="searchResults.length > 0">
+          <option *ngFor="let result of searchResults" [value]="result.id">
+            {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+          </option>
+        </ng-container>
+      </select>
+    </label>
+    <label class="block mb-4">
+      Movie Title:
+      <input
+        type="text"
+        formControlName="movieTitle"
+        readonly
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full"
+      />
+    </label>
+    <label class="block mb-4">
+      Year of Release:
+      <input
+        type="text"
+        formControlName="movieYear"
+        readonly
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full"
+      />
+    </label>
+    <ng-container *ngIf="moviePosterUrl">
+      <label class="block mb-4">
+        Movie Poster:
+        <img [src]="moviePosterUrl" alt="Movie Poster" class="w-full h-auto" />
+      </label>
+    </ng-container>
+    <label class="block mb-4">
+      Your Rating:
+      <input
+        type="number"
+        formControlName="userRating"
+        step="0.1"
+        min="1"
+        max="5"
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full"
+      />
+    </label>
+    <label class="block mb-4">
+      Your Review:
+      <textarea
+        formControlName="reviewText"
+        class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full h-20"
+      ></textarea>
+    </label>
+    <button
+      type="submit"
+      class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors w-full"
+    >
+      Save Review
+    </button>
+    <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
+  </form>
+</div>

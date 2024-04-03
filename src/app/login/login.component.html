@@ -1,13 +1,33 @@
-<!-- src/app/login/login.component.html -->
-<form>
-  <input type="email" [(ngModel)]="email" name="email" placeholder="Email" />
-  <input
-    type="password"
-    [(ngModel)]="password"
-    name="password"
-    placeholder="Password"
-  />
-  <button (click)="login()">Login</button>
-  <button (click)="register()">Register</button>
-  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-</form>
+<div
+  class="bg-gray-900 text-gray-200 font-sans min-h-screen flex items-center justify-center"
+>
+  <form class="bg-gray-800 p-6 rounded-lg">
+    <input
+      type="email"
+      [(ngModel)]="email"
+      name="email"
+      placeholder="Email"
+      class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full mb-4"
+    />
+    <input
+      type="password"
+      [(ngModel)]="password"
+      name="password"
+      placeholder="Password"
+      class="bg-gray-900 text-gray-200 rounded px-2 py-1 w-full mb-4"
+    />
+    <button
+      (click)="login()"
+      class="bg-gray-700 text-gray-200 rounded px-2 py-1 hover:bg-gray-600 transition-colors w-full mb-4"
+    >
+      Login
+    </button>
+    <button
+      (click)="register()"
+      class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors w-full"
+    >
+      Register
+    </button>
+    <div *ngIf="errorMessage" class="text-red-500 mt-4">{{ errorMessage }}</div>
+  </form>
+</div>

@@ -1,32 +1,124 @@
-<!-- src/app/navbar/navbar.component.html -->
-<nav>
-  <a routerLink="/">Cinebuzz</a>
-  <div>
-    <form [formGroup]="searchForm">
-      <input
-        type="text"
-        formControlName="movieSearch"
-        (input)="onSearchChange($event)"
-        placeholder="Search for movies"
-      />
-      <select (change)="onMovieSelect($event)">
-        <option value="">Select a movie</option>
-        <ng-container *ngIf="searchForm.get('movieSearch')?.value">
-          <option *ngFor="let result of searchResults" [value]="result.id">
-            {{ result.title }} ({{ result.release_date.slice(0, 4) }})
-          </option>
-        </ng-container>
-      </select>
-    </form>
-    <div *ngIf="user$ | async as user">
-      <p>Welcome back, {{ user.email.split("@")[0] }}</p>
-      <button routerLink="/write-review">New Review</button>
-      <button [routerLink]="getProfileLink(user)">Profile</button>
-      <button (click)="logout()">Logout</button>
-    </div>
-    <div *ngIf="!(user$ | async)">
-      <a routerLink="/login">Login</a>
-      <a routerLink="/login">Register</a>
+<nav class="bg-gray-900 text-gray-200 w-full font-sans">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <a routerLink="/" class="text-lg hover:text-gray-50 transition-colors"
+        ><lucide-icon name="popcorn"></lucide-icon
+      ></a>
+      <div class="flex items-center">
+        <form [formGroup]="searchForm" class="mr-4 flex items-center space-x-2">
+          <input
+            type="text"
+            formControlName="movieSearch"
+            (input)="onSearchChange($event)"
+            placeholder="Search for movies"
+            class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors w-64"
+          />
+          <select
+            (change)="onMovieSelect($event)"
+            class="bg-gray-800 text-gray-200 rounded px-2 py-1 ml-2 hover:bg-gray-700 transition-colors w-40"
+          >
+            <option value="">Select a movie</option>
+            <ng-container *ngIf="searchForm.get('movieSearch')?.value">
+              <option *ngFor="let result of searchResults" [value]="result.id">
+                {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+              </option>
+            </ng-container>
+          </select>
+        </form>
+        <div class="relative lg:hidden">
+          <button
+            (click)="menuOpen = !menuOpen"
+            class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors"
+          >
+            Menu
+          </button>
+          <div
+            *ngIf="menuOpen"
+            class="absolute right-0 mt-2 w-48 bg-gray-900 text-gray-200 rounded-md overflow-hidden shadow-xl z-10"
+          >
+            <div *ngIf="user$ | async as user" class="flex flex-col space-y-2">
+              <p class="text-gray-200 px-4 py-2">
+                Welcome back, {{ user.email.split("@")[0] }}
+              </p>
+              <a
+                routerLink="/write-review"
+                class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors"
+              >
+                New Review
+              </a>
+              <a
+                [routerLink]="getProfileLink(user)"
+                class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors"
+              >
+                Profile
+              </a>
+              <button
+                (click)="logout()"
+                class="bg-red-600 text-gray-200 rounded px-2 py-1 hover:bg-red-500 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+            <div *ngIf="!(user$ | async)" class="flex flex-col space-y-2">
+              <a
+                routerLink="/login"
+                class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors"
+              >
+                Login
+              </a>
+              <a
+                routerLink="/login"
+                class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors"
+              >
+                Register
+              </a>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngIf="user$ | async as user"
+          class="hidden lg:flex items-center space-x-2"
+        >
+          <p class="text-gray-200">
+            Welcome back, {{ user.email.split("@")[0] }}
+          </p>
+          <button
+            routerLink="/write-review"
+            class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors"
+          >
+            New Review
+          </button>
+          <button
+            [routerLink]="getProfileLink(user)"
+            class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors"
+          >
+            Profile
+          </button>
+          <button
+            (click)="logout()"
+            class="bg-red-600 text-gray-200 rounded px-2 py-1 hover:bg-red-500 transition-colors"
+          >
+            Logout
+          </button>
+        </div>
+        <div
+          *ngIf="!(user$ | async)"
+          class="hidden lg:flex items-center space-x-2"
+        >
+          <a
+            routerLink="/login"
+            class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors"
+          >
+            Login
+          </a>
+          <a
+            routerLink="/login"
+            class="bg-green-600 text-gray-200 rounded px-2 py-1 hover:bg-green-500 transition-colors"
+          >
+            Register
+          </a>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

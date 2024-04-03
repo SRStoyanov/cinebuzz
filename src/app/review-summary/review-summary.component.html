@@ -1,41 +1,51 @@
-<!-- review-summary.component.html -->
-<div *ngIf="review">
-  <h3>
-    <a [routerLink]="['/movies', review.movieId]"
-      >{{ review.movieTitle }} ({{ review.movieRelease }})</a
+<div
+  *ngIf="review"
+  class="bg-gray-900 text-gray-200 font-sans p-4 rounded-lg mb-4 max-w-sm mx-auto border border-gray-800 text-center"
+>
+  <h3 class="text-xl mb-4 font-semibold h-16">
+    <a
+      [routerLink]="['/movies', review.movieId]"
+      class="hover:text-gray-50 transition-colors"
     >
+      {{ review.movieTitle }} ({{ review.movieRelease }})
+    </a>
   </h3>
   <img
     *ngIf="review.poster_path && showPoster"
     [src]="'https://image.tmdb.org/t/p/w500' + review.poster_path"
     alt="Movie Poster"
-    style="max-width: 200px; height: auto"
+    class="max-w-full h-auto rounded mr-4"
   />
-  <p>{{ review.reviewText }}</p>
-  <p>{{ review.rating }} out of 5</p>
-  <p *ngIf="userEmail$ | async as userEmail">
+  <p class="mb-4 text-md h-32 overflow-auto">{{ review.reviewText }}</p>
+  <p class="mb-4 text-md">{{ review.rating }} out of 5</p>
+  <p *ngIf="userEmail$ | async as userEmail" class="mb-4 font-semibold text-md">
     <a
       *ngIf="loggedInUserId; else notLoggedIn"
       [routerLink]="['/users', review.userId]"
-      >Author: {{ userEmail.split("@")[0] }}</a
+      class="hover:text-gray-50 transition-colors"
     >
-    <ng-template #notLoggedIn
-      ><a [routerLink]="['/login']"
-        >Author: {{ userEmail.split("@")[0] }}</a
-      ></ng-template
-    >
+      Author: {{ userEmail.split("@")[0] }}
+    </a>
+    <ng-template #notLoggedIn>
+      <a [routerLink]="['/login']" class="hover:text-gray-50 transition-colors">
+        Author: {{ userEmail.split("@")[0] }}
+      </a>
+    </ng-template>
   </p>
-  <!-- Add check for loggedInUserId being not null -->
-  <a
-    *ngIf="loggedInUserId && review.userId === loggedInUserId"
-    [routerLink]="['/edit-review', review.id]"
-  >
-    Edit Review
-  </a>
-  <button
-    *ngIf="loggedInUserId && review.userId === loggedInUserId"
-    (click)="onDelete()"
-  >
-    Delete Review
-  </button>
+  <div class="h-10">
+    <a
+      *ngIf="loggedInUserId && review.userId === loggedInUserId"
+      [routerLink]="['/edit-review', review.id]"
+      class="bg-gray-800 text-gray-200 rounded px-2 py-1 hover:bg-gray-700 transition-colors mr-2 inline-block"
+    >
+      Edit Review
+    </a>
+    <button
+      *ngIf="loggedInUserId && review.userId === loggedInUserId"
+      (click)="onDelete()"
+      class="bg-red-600 text-gray-200 rounded px-2 py-1 hover:bg-red-500 transition-colors"
+    >
+      Delete Review
+    </button>
+  </div>
 </div>

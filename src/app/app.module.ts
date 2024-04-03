@@ -18,7 +18,6 @@ import { ReviewListComponent } from './review-list/review-list.component';
 import { MovieDetailComponent } from './movie-detail/movie-detail.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { RegisterComponent } from './register/register.component';
 import { WriteReviewComponent } from './write-review/write-review.component';
 
 // Import HttpClientModule
@@ -27,6 +26,8 @@ import { ReviewSummaryComponent } from './review-summary/review-summary.componen
 import { LatestReviewsComponent } from './latest-reviews/latest-reviews.component';
 import { HomeComponent } from './home/home.component';
 import { EditReviewComponent } from './edit-review/edit-review.component';
+
+import { LucideAngularModule, Popcorn } from 'lucide-angular';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,6 @@ import { EditReviewComponent } from './edit-review/edit-review.component';
     MovieDetailComponent,
     UserProfileComponent,
     NavbarComponent,
-    RegisterComponent,
     WriteReviewComponent,
     ReviewSummaryComponent,
     LatestReviewsComponent,
@@ -51,7 +51,8 @@ import { EditReviewComponent } from './edit-review/edit-review.component';
     AngularFireAuthModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule, // Add this line
+    HttpClientModule,
+    LucideAngularModule.pick({ Popcorn }),
   ],
   providers: [AuthService, provideAnimationsAsync()],
   bootstrap: [AppComponent],

@@ -1,6 +1,7 @@
 // review-summary.component.ts
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { AuthService } from '../services/auth.service'; // Import AuthService
 
 @Component({
   selector: 'app-review-summary',
@@ -16,9 +17,15 @@ export class ReviewSummaryComponent implements OnInit {
   @Output() edit = new EventEmitter<string>();
   @Output() delete = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authService.isLoggedIn.subscribe((isLoggedIn) => {
+      if (!isLoggedIn) {
+        this.loggedInUserId = null; // clear the user id when the user logs out
+      }
+    });
+  }
 
   @Input()
   set review(value: any) {

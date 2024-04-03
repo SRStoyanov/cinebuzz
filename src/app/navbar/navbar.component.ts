@@ -5,6 +5,7 @@ import { MovieDbService } from '../services/movie-db.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { LucideAngularModule, Popcorn } from 'lucide-angular';
 
 interface Movie {
   id: number;
@@ -22,6 +23,7 @@ export class NavbarComponent implements OnInit {
   user$: Observable<any>;
   searchForm: FormGroup;
   searchResults: Movie[] = [];
+  menuOpen = false; // Add this line
 
   constructor(
     private authService: AuthService,

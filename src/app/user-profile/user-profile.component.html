@@ -1,1 +1,9 @@
-<app-review-list [query]="{ userId: userId }"></app-review-list>
+<div class="bg-gray-900 text-gray-200 font-sans py-4 min-h-screen">
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl mb-4">My Reviews</h2>
+    <app-review-list
+      [query]="{ userId: userId }"
+      class="text-lg"
+    ></app-review-list>
+  </div>
+</div>
