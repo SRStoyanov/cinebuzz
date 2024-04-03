@@ -2,7 +2,7 @@
   class="bg-gray-900 text-gray-200 font-sans min-h-screen flex flex-col items-center justify-center p-6"
 >
   <div
-    class="bg-gray-900 text-gray-200 font-sans p-8 rounded-lg mb-4 max-w-4xl mx-auto border border-gray-800 rounded-xl flex items-start"
+    class="bg-gray-900 text-gray-200 font-sans p-8 rounded-lg mb-4 max-w-4xl mx-auto border border-gray-800 flex items-start"
   >
     <img
       [src]="movie?.posterPath"
@@ -15,7 +15,7 @@
       </h1>
       <p class="mb-4">{{ movie?.synopsis }}</p>
       <p *ngIf="averageRating > 0" class="mb-4">
-        Average Rating: {{ averageRating | number : "1.1-2" }}
+        Average Cinebuzz Rating: {{ averageRating | number : "1.1-2" }}
       </p>
       <button
         *ngIf="isLoggedIn"

@@ -1,27 +1,36 @@
 # Cinebuzz
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.0.
+Cinebuzz is a simplified Letterboxd clone built with AngularJS. It uses Firebase Authentication for user authentication and Firestore for the backend database. The application is styled with Tailwind CSS and is deployed live via GitHub to Firebase Hosting.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Guest Users:** Can search for movies and read any reviews published on the website. They can also view movie details such as title, year of release, synopsis, and poster, courtesy of themoviedb.org's API.
+- **Registered Users:** Can write, edit, and delete their own reviews (CRUD). They can also browse their own user profiles as well as other users' profiles.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+First, install the dependencies:
 
-## Build
+```bash
+npm i
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
 
-## Running unit tests
+Then, run the application:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+ng serve
 
-## Running end-to-end tests
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Navigate to http://localhost:4200/. The application will automatically reload if you change any of the source files.
 
-## Further help
+## Future Improvements
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Better generalize code used in write-review and edit-review.
+- Better generalize code used in write-review and navbar (for the search functionality).
+- Make the UI fully responsive, and generally improve the UI.
+- Hide API key and access it via the Firebase hosting.
+- Better protect the /edit-review and /user-profile routes.
+- Implement unit testing.
+- Add loading states for making API requests.
