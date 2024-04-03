@@ -1,6 +1,6 @@
 # Cinebuzz
 
-Cinebuzz is a simplified Letterboxd clone built with AngularJS. It uses Firebase Authentication for user authentication and Firestore for the backend database. The application is styled with Tailwind CSS and is deployed live via GitHub to Firebase Hosting.
+Cinebuzz is a simplified Letterboxd clone built with AngularJS. It uses Firebase Authentication for user authentication and Firestore for the backend database. The application is styled with Tailwind CSS and is deployed live via GitHub to Firebase Hosting and available at https://cinebuzz-34f85.web.app.
 
 ## Features
 
