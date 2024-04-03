@@ -34,3 +34,7 @@ Navigate to http://localhost:4200/. The application will automatically reload if
 - Better protect the /edit-review and /user-profile routes.
 - Implement unit testing.
 - Add loading states for making API requests.
+
+## Known Bugs
+
+- If the movie-detail view has rendered about one movie, and the user somehow reroutes to a different /movies/:movieId, the view doesn't change.
