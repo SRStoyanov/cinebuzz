@@ -2,9 +2,21 @@
 <nav>
   <a routerLink="/">Cinebuzz</a>
   <div>
-    <form>
-      <input type="search" placeholder="Search for movies" />
-      <button type="submit">Search</button>
+    <form [formGroup]="searchForm">
+      <input
+        type="text"
+        formControlName="movieSearch"
+        (input)="onSearchChange($event)"
+        placeholder="Search for movies"
+      />
+      <select (change)="onMovieSelect($event)">
+        <option value="">Select a movie</option>
+        <ng-container *ngIf="searchForm.get('movieSearch')?.value">
+          <option *ngFor="let result of searchResults" [value]="result.id">
+            {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+          </option>
+        </ng-container>
+      </select>
     </form>
     <div *ngIf="user$ | async as user">
       <p>Welcome back, {{ user.email.split("@")[0] }}</p>

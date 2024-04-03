@@ -9,15 +9,13 @@
   </label>
   <label>
     Our Best Guesses:
-    <select
-      *ngIf="searchResults.length > 0"
-      formControlName="movieId"
-      (change)="onMovieSelect($event)"
-    >
+    <select formControlName="movieId" (change)="onMovieSelect($event)">
       <option value="">Select a movie</option>
-      <option *ngFor="let result of searchResults" [value]="result.id">
-        {{ result.title }} ({{ result.release_date.slice(0, 4) }})
-      </option>
+      <ng-container *ngIf="searchResults.length > 0">
+        <option *ngFor="let result of searchResults" [value]="result.id">
+          {{ result.title }} ({{ result.release_date.slice(0, 4) }})
+        </option>
+      </ng-container>
     </select>
   </label>
   <label>
